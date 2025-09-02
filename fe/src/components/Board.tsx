@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import Cell from './Cell';
 import Input from './Input';
-import axios from 'axios';
-import { APIURL } from '../utils';
-import type { BoardData, HistoryData } from '../types';
+import type { BoardData, HistoryData } from '../../../src/types';
+import { useAPI } from '../hooks/useApi';
 
 type BoardProps = {
     id?:number|null;
@@ -11,7 +10,8 @@ type BoardProps = {
     onCreate:(value:number) => void;
 }
 
-const Board = ({id,onDelete=()=>{},onCreate=()=>{}}:BoardProps) => {  
+const Board = ({id,onDelete=()=>{},onCreate=()=>{}}:BoardProps) => {
+    const {post,get} = useAPI();  
     const [rows,setRows] = useState<number>(3);
     const [cols,setCols] = useState<number>(3);
     const [numToWin,setNumToWin] = useState<number>(3);
@@ -81,26 +81,24 @@ const Board = ({id,onDelete=()=>{},onCreate=()=>{}}:BoardProps) => {
         }
     },[id]);
 
-    const getGame = () => {
-        axios.get(APIURL+"/api/games/"+id).then(response=>{
-            console.log(response.data);
-            setRows(response.data.rows);
-            setCols(response.data.cols);
-            setNumToWin(response.data.numToWin);
-            setHistory(response.data.history);
-            setStep(response.data.history.length-1);
+    const getGame = async () => {
+        get("/api/games/"+id).then(response=>{
+            setRows(response.rows);
+            setCols(response.cols);
+            setNumToWin(response.numToWin);
+            setHistory(response.history);
+            setStep(response.history.length-1);
         })
     }
-    const saveGame = () => {
+    const saveGame = async () => {
         const endpoint = id ? "/api/games/edit" :"/api/games/new";
-        axios.post(APIURL+endpoint,{id,rows,cols,numToWin,history}).then(response=>{
-            console.log(response.data);
-            !id&&onCreate(response.data.id);
+        post(endpoint,{id,rows,cols,numToWin,history}).then(response=>{
+            console.log(response);
+            !id&&onCreate(response);
         })
     }
-    const deleteGame = () => {
-        axios.get(APIURL+"/api/games/delete/"+id).then(response=>{
-            console.log(response.data);
+    const deleteGame = async () => {
+        get("/api/games/delete/"+id).then(()=>{
             onDelete();
         })
     }

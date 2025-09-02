@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { APIURL } from "./utils";
 import Board from "./components/Board";
-import type { GameData } from "./types";
+import type { GameData } from "../../src/types";
+import { useAPI } from "./hooks/useApi";
 
 const App = () => {
+  const {get} = useAPI();
   const [games,setGames] = useState<GameData[]>();
   const [active, setActive] = useState<number|null|undefined>(null);
-  const getGames = () => {
-    axios.get(APIURL+"/api/games").then(response=>{
-      console.log(response.data);
-      setGames(response.data);
+  const getGames = async () => {
+    get("/api/games").then(response=>{
+      console.log(response);
+      setGames(response);
     })
   }
   useEffect(()=>{
@@ -22,6 +24,7 @@ const App = () => {
         {games?.length?<>
           <p>Saved games:</p>
           {games.map(g=><button key={g.id} onClick={()=>setActive(g.id)} >{`Game #${g.id}`}</button>)}
+          <button onClick={()=>setActive(404)}>404 Game</button>
         </>:"No saved games"}
         <button onClick={()=>setActive(null)}>New game</button>
       </div>

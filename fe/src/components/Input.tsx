@@ -9,6 +9,6 @@ type InputProps = {
 } & Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange">;
 
 const Input = ({name,label,type="number",value,onChange=()=>{}, ...rest}:InputProps) => {
-    return <label><p>{label}</p><input type={type} value={value} onChange={(e)=>onChange(e.target.value)} {...rest} /></label>
+    return <label><p>{label}</p><input className="border w-16" type={type} value={value} onChange={(e)=>onChange(e.target.value)} {...rest} /></label>
 }
 export default Input;

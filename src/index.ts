@@ -8,6 +8,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/games",GamesRouter);
-app.use(errorHandler);
+// app.use(errorHandler);
 
 app.listen(process.env.PORT || 3001);

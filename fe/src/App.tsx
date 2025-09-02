@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { APIURL } from "./utils";
 import Board from "./components/Board";
+import type { GameData } from "./types";
 
 const App = () => {
-  const [games,setGames] = useState();
-  const [active, setActive] = useState();
+  const [games,setGames] = useState<GameData[]>();
+  const [active, setActive] = useState<number|null|undefined>(null);
   const getGames = () => {
     axios.get(APIURL+"/api/games").then(response=>{
       console.log(response.data);
@@ -24,7 +25,7 @@ const App = () => {
         </>:"No saved games"}
         <button onClick={()=>setActive(null)}>New game</button>
       </div>
-      <Board id={active} onDelete={()=>{getGames();setActive(null)}} onCreate={(id)=>{getGames();setActive(id)}} />
+      <Board id={active} onDelete={()=>{getGames();setActive(null)}} onCreate={(id:number)=>{getGames();setActive(id)}} />
     </main>
   )
   

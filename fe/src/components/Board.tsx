@@ -3,22 +3,29 @@ import Cell from './Cell';
 import Input from './Input';
 import axios from 'axios';
 import { APIURL } from '../utils';
+import type { BoardData, HistoryData } from '../types';
 
-const Board = ({id,onDelete=()=>{},onCreate=()=>{}}) => {  
-    const [rows,setRows] = useState(3);
-    const [cols,setCols] = useState(3);
-    const [numToWin,setNumToWin] = useState(3);
+type BoardProps = {
+    id?:number|null;
+    onDelete:() => void;
+    onCreate:(value:number) => void;
+}
+
+const Board = ({id,onDelete=()=>{},onCreate=()=>{}}:BoardProps) => {  
+    const [rows,setRows] = useState<number>(3);
+    const [cols,setCols] = useState<number>(3);
+    const [numToWin,setNumToWin] = useState<number>(3);
 
     const cells = useMemo(() => Array.from({ length: rows * cols }, (_, i) => i), [rows, cols]);
-    const emptyBoard = (r, c) => ({board:Array(r * c).fill(null)});
+    const emptyBoard = (r:number, c:number):HistoryData => ({board:Array(r * c).fill(null)});
 
-    const [history,setHistory] = useState([emptyBoard(rows,cols)]);
-    const [step,setStep] = useState(0);
+    const [history,setHistory] = useState<HistoryData[]>([emptyBoard(rows,cols)]);
+    const [step,setStep] = useState<number>(0);
     const xIsNext = step % 2 === 0;
     const board = history[step].board;
     const winner = history[step].winner;
 
-    const handleClick = (i) => {
+    const handleClick = (i:number) => {
         if (winner||board[i]) return;
         const who = xIsNext?"X":"O";
         const nextState = board.toSpliced(i,1,who);
@@ -26,7 +33,7 @@ const Board = ({id,onDelete=()=>{},onCreate=()=>{}}) => {
         setStep(nextStep); 
         setHistory(prev=>[...prev.slice(0,nextStep),{board:nextState,winner:check(i,nextState,who)?who:undefined}]);
     }
-    const check = (index,state,who) => {
+    const check = (index:number,state:BoardData,who:string) => {
         const target = who.repeat(numToWin);
         const rs = Math.floor(index/cols)*cols; // row start
         const cs = index-rs; // col start
@@ -107,7 +114,7 @@ const Board = ({id,onDelete=()=>{},onCreate=()=>{}}) => {
             </div>
             <div className='p-2'>
                 <div className='grid border' style={{gridTemplateRows:`repeat(${rows},100px)`,gridTemplateColumns:`repeat(${cols},100px)`}}>
-                    {cells.map(i =><Cell key={i} i={i} value={board[i]} onClick={()=>handleClick(i)} />)}
+                    {cells.map(i =><Cell key={i} value={board[i]} onClick={()=>handleClick(i)} />)}
                 </div>
                 <div className='flex flex-col gap-8'>
                     <div className='flex gap-4 [&_input]:border [&_input]:w-16'>

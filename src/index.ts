@@ -1,13 +1,13 @@
-import express from "express";
-import cors from "cors";
-import GamesRouter from "./routes/games";
-import errorHandler from "./middleware/errorHandler";
+import cors from 'cors';
+import express from 'express';
+import errorHandler from './middleware/errorHandler';
+import GamesRouter from './routes/games';
 
 export const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/games",GamesRouter);
+app.use('/api/games', GamesRouter);
 app.use(errorHandler);
 
 app.listen(process.env.PORT || 3001);

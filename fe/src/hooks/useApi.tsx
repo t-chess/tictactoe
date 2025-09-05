@@ -17,11 +17,12 @@ export const useAPI = () => {
       return response.data.body;
     } catch (error: any) {
       console.error(error);
-      show(error.response.data.error || endpoint, 'error');
+      show(error.response.data.error || error.response.data || endpoint, 'error');
     }
   };
   const post = async (endpoint: string, data: any) => apiCall('post', endpoint, data);
   const get = async (endpoint: string) => apiCall('get', endpoint);
+  const del = async (endpoint: string) => apiCall('delete', endpoint);
 
-  return { post, get };
+  return { post, get,del };
 };

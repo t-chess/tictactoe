@@ -11,7 +11,7 @@ type BoardProps = {
 };
 
 const Board = ({ id, onDelete = () => {}, onCreate = () => {} }: BoardProps) => {
-  const { post, get } = useAPI();
+  const { post, get, del } = useAPI();
   const [rows, setRows] = useState<number>(3);
   const [cols, setCols] = useState<number>(3);
   const [numToWin, setNumToWin] = useState<number>(3);
@@ -113,13 +113,13 @@ const Board = ({ id, onDelete = () => {}, onCreate = () => {} }: BoardProps) => 
   };
   const saveGame = async () => {
     const endpoint = id ? '/api/games/edit' : '/api/games/new';
-    post(endpoint, { id, rows, cols, numToWin, history }).then((response) => {
+    post(endpoint, { id, rows, cols, num_to_win:numToWin, history }).then((response) => {
       console.log(response);
       !id && onCreate(response);
     });
   };
   const deleteGame = async () => {
-    get('/api/games/delete/' + id).then(() => onDelete());
+    del('/api/games/' + id).then(() => onDelete());
   };
 
   return (
@@ -128,7 +128,7 @@ const Board = ({ id, onDelete = () => {}, onCreate = () => {} }: BoardProps) => 
       <div className="flex justify-center gap-4 pb-4">
         <button onClick={saveGame}>{id ? 'Update game' : 'Save game'}</button>
         {id ? <button onClick={deleteGame}>Delete</button> : <button onClick={reset}>Clear</button>}
-        <p>{inPast ? 'inPast' : 'not inPast'}</p>
+        {/* <p>{inPast ? 'inPast' : 'not inPast'}</p> */}
       </div>
       <div className="p-2">
         <div

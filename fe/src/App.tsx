@@ -10,7 +10,7 @@ const App = () => {
   const [games, setGames] = useState<GameData[]>();
   const [active, setActive] = useState<number | null | undefined>(null);
   const getGames = async () => {
-    get('/api/games').then((response) => {
+    get('/api/games/').then((response) => {
       console.log(response);
       setGames(response);
     });

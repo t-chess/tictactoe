@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO games_rust (rows, cols, num_to_win, history, created_at) VALUES (?, ?, ?, ?, ?) ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 5
+    },
+    "nullable": []
+  },
+  "hash": "6a0cd0276fffbde091d01e8fe5760dd434cc44175d8482c6b658305969288ddb"
+}

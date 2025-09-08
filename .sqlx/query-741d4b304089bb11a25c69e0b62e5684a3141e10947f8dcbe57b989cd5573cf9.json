@@ -1,0 +1,50 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT id, rows, cols, num_to_win, history, created_at FROM games_rust WHERE id = ? ",
+  "describe": {
+    "columns": [
+      {
+        "name": "id",
+        "ordinal": 0,
+        "type_info": "Int64"
+      },
+      {
+        "name": "rows",
+        "ordinal": 1,
+        "type_info": "Int64"
+      },
+      {
+        "name": "cols",
+        "ordinal": 2,
+        "type_info": "Int64"
+      },
+      {
+        "name": "num_to_win",
+        "ordinal": 3,
+        "type_info": "Int64"
+      },
+      {
+        "name": "history",
+        "ordinal": 4,
+        "type_info": "Text"
+      },
+      {
+        "name": "created_at",
+        "ordinal": 5,
+        "type_info": "Int64"
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "741d4b304089bb11a25c69e0b62e5684a3141e10947f8dcbe57b989cd5573cf9"
+}

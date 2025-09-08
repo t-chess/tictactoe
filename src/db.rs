@@ -1,8 +1,8 @@
-use sqlx::{SqlitePool, query, query_as};
-use crate::types::DBGameRow;
+use sqlx::{SqlitePool, query};
 
 pub async fn ensure_schema(pool: &SqlitePool) -> Result<(), sqlx::Error> {
-    query(r#"
+    query(
+        r#"
         CREATE TABLE IF NOT EXISTS games_rust (
             id INTEGER NOT NULL PRIMARY KEY,
             rows INTEGER NOT NULL,
@@ -11,6 +11,9 @@ pub async fn ensure_schema(pool: &SqlitePool) -> Result<(), sqlx::Error> {
             history TEXT NOT NULL,
             created_at INTEGER NOT NULL
         );
-    "#).execute(pool).await?;
+    "#,
+    )
+    .execute(pool)
+    .await?;
     Ok(())
 }

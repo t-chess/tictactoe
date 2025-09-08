@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "UPDATE games_rust SET rows=?, cols=?, num_to_win=?, history=? WHERE id = ? ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 5
+    },
+    "nullable": []
+  },
+  "hash": "535bd12c4dbeb8fe875838c803775ba5f050c5fa770c2a93e11cfc9dad180890"
+}
